@@ -43,7 +43,7 @@ public class BGM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//offBGM();
+		offBGM();
 	}
 
 	private void offBGM() {

@@ -40,11 +40,11 @@ public class BackgroundPlayerService implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			
+
 			//1.버블충돌체크
 			for(int i=0; i<bubbleList.size(); i++) {
 				Bubble bubble = bubbleList.get(i);
-				if(bubble.getState() ==1 ) {
+				if(bubble.getState() == 1) {
 					if((Math.abs(player.getX()-bubble.getX()) < 10) &&
 					Math.abs(player.getY()-bubble.getY()) > 0 && Math.abs(player.getY()-bubble.getY()) < 50 ){
 						System.out.println("적군 사살 완료");
@@ -52,12 +52,13 @@ public class BackgroundPlayerService implements Runnable {
 						break; 
 					}
 				}
+				
 			}
 			
 			//적군충돌체크
 			for(int i=0; i<enemyList.size(); i++) {
 				Enemy enemy = enemyList.get(i);
-				if(enemy.getState() ==0  ) {
+				if(enemy.getState() == 0) {
 					if((Math.abs(player.getX()-enemy.getX()) < 10) &&
 					Math.abs(player.getY()-enemy.getY()) > 0 && Math.abs(player.getY()-enemy.getY()) < 50 ){
 						System.out.println("적군 충돌");
