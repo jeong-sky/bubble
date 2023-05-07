@@ -32,9 +32,8 @@ public class BubbleFrame extends JFrame {
 	private BGM bgm;
 
 	public BubbleFrame() {
-		initObject();
 		initSetting();
-		initListener();
+		initScreen();
 		setVisible(true);
 	}
 	
@@ -44,33 +43,29 @@ public class BubbleFrame extends JFrame {
 			//키보드 클릭이벤트
 			@Override
 			public void keyPressed(KeyEvent e) {
-				//System.out.println(e.getKeyCode());
 				
 				switch (e.getKeyCode()) {
-				case KeyEvent.VK_LEFT:	
-					if(!player.isLeft() && !player.isLeftWallCrash()) {
-						player.left();						
-					}
-					break;
-
-				case KeyEvent.VK_RIGHT:
-					if(!player.isRight() && !player.isRightWallCrash()) {
-						player.right();						
-					}
-					break;
-					
-				case KeyEvent.VK_UP:	
-					if(!player.isUp() && !player.isDown()) {
-						player.up();
-					}
-					break;
-					
-				case KeyEvent.VK_SPACE:
-//					Bubble bubble  = new Bubble(mContext);
-//					add(bubble);
-					player.attack();
-					break;
-					
+					case KeyEvent.VK_LEFT:	
+						if(!player.isLeft() && !player.isLeftWallCrash()) {
+							player.left();						
+						}
+						break;
+	
+					case KeyEvent.VK_RIGHT:
+						if(!player.isRight() && !player.isRightWallCrash()) {
+							player.right();						
+						}
+						break;
+						
+					case KeyEvent.VK_UP:	
+						if(!player.isUp() && !player.isDown()) {
+							player.up();
+						}
+						break;
+						
+					case KeyEvent.VK_SPACE:
+						player.attack();
+						break;
 				}
 			}
 			
@@ -88,6 +83,34 @@ public class BubbleFrame extends JFrame {
 				}
 			}
 			
+		});
+	}
+	
+	private void initScreen() {
+		backgroundMap = new JLabel(new ImageIcon("image/initScreen.png"));
+		setContentPane(backgroundMap);
+		
+		bgm = new BGM();
+		
+		addKeyListener(new KeyAdapter() {
+			
+			//키보드 클릭이벤트
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch(e.getKeyCode()) {
+				
+					//enter 누르면 게임시작
+					case KeyEvent.VK_ENTER:
+						initObject();
+						initListener();
+						refresh();
+						break;
+						
+					case KeyEvent.VK_ESCAPE:
+						System.exit(0);
+						break;
+				}
+			}
 		});
 	}
 
@@ -113,12 +136,6 @@ public class BubbleFrame extends JFrame {
 		player = new Player(mContext);
 		add(player);
 
-		bgm = new BGM();
-		
-		//backgroundMap.setLocation(300, 300);
-		//backgroundMap.setSize(1000, 600);
-		//add(backgroundMap); //jframe에 jlabel이 그려진다.
-		
 	}
 	
 	private void initSetting() {
@@ -132,6 +149,23 @@ public class BubbleFrame extends JFrame {
 		gameOver = new GameOver();
 		mContext.add(gameOver);
 		bgm.gameOverBGM();
+		
+		addKeyListener(new KeyAdapter() {
+			//키보드 클릭이벤트
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					dispose();
+					new BubbleFrame();
+					break;
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
+					break;	
+				}
+			}
+		});
     }
     
     public void refresh() {
