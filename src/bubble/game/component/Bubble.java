@@ -33,6 +33,8 @@ public class Bubble extends JLabel implements Moveable {
 	//적군을 맞춘 상태
 	private int state; // 0(물방울), 1(적을 가둔 물방울)
 	
+	private boolean isKilled = false;
+	
 	private ImageIcon bubble; //물방울
  	private ImageIcon bubbled; //가둔 물방울
  	private ImageIcon bomb; //물방울이 터진 상태
@@ -216,6 +218,9 @@ public class Bubble extends JLabel implements Moveable {
 				Thread.sleep(1000);
 				mContext.remove(this);
 				mContext.repaint();
+
+				int count = mContext.getKillCount();
+				mContext.setKillCount(++count);
 				
 			} catch (Exception e) {
 				// TODO: handle exception

@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import bubble.game.component.Enemy;
-import bubble.game.component.GameOver;
 import bubble.game.component.Player;
 import bubble.game.music.BGM;
 import lombok.Getter;
@@ -27,11 +26,15 @@ public class BubbleFrame extends JFrame {
 	private Player player;
 	private List<Enemy> enemyList;
 	private String direction;
-	private GameOver gameOver;
+
+	private int killCount = 0;
+	
+	private boolean isRunning = false;
 	
 	private BGM bgm;
 
 	public BubbleFrame() {
+		isRunning = true;
 		initSetting();
 		initScreen();
 		setVisible(true);
@@ -66,6 +69,16 @@ public class BubbleFrame extends JFrame {
 					case KeyEvent.VK_SPACE:
 						player.attack();
 						break;
+						
+					case KeyEvent.VK_ENTER:
+						dispose();
+						bgm.offBGM();
+						new BubbleFrame();
+						break;
+						
+					case KeyEvent.VK_ESCAPE:
+						System.exit(0);
+						break;	
 				}
 			}
 			
@@ -89,9 +102,9 @@ public class BubbleFrame extends JFrame {
 	private void initScreen() {
 		backgroundMap = new JLabel(new ImageIcon("image/initScreen.png"));
 		setContentPane(backgroundMap);
-		
+	
 		bgm = new BGM();
-		
+				
 		addKeyListener(new KeyAdapter() {
 			
 			//키보드 클릭이벤트
@@ -146,27 +159,27 @@ public class BubbleFrame extends JFrame {
 	}
 	
 	public void gameOver() {
-		gameOver = new GameOver();
-		mContext.add(gameOver);
-		bgm.gameOverBGM();
 		
-		addKeyListener(new KeyAdapter() {
-			//키보드 클릭이벤트
-			@Override
-			public void keyPressed(KeyEvent e) {
-				
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_ENTER:
-					dispose();
-					new BubbleFrame();
-					break;
-				case KeyEvent.VK_ESCAPE:
-					System.exit(0);
-					break;	
-				}
-			}
-		});
+		if(isRunning) {
+			isRunning = false;
+			
+			backgroundMap = new JLabel(new ImageIcon("image/gameOver.png"));
+			setContentPane(backgroundMap);
+			
+			bgm.gameOverBGM();
+		}
+	
     }
+	
+	public void gameClear() {
+		
+		if(isRunning) {
+			isRunning = false;
+		
+			backgroundMap = new JLabel(new ImageIcon("image/gameEnding.png"));
+			setContentPane(backgroundMap);
+		}
+	}
     
     public void refresh() {
         validate();
